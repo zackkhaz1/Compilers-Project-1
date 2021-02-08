@@ -100,6 +100,125 @@ DIGIT [0-9]
 		colNum = 0;
 		}
 
+"int"	{
+		int tokenKind = TokenKind::INT;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"bool"	{
+		int tokenKind = TokenKind::BOOL;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"byte"	{
+		int tokenKind = TokenKind::BYTE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"string"	{
+			int tokenKind = TokenKind::STRING;
+			Token *token = new Token(lineNum, colNum, tokenKind);
+			this->yylval->lexeme = token;
+			colNum++;
+			return tokenKind;
+			}
+
+"void"	{
+		int tokenKind = TokenKind::VOID;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"if"	{
+		int tokenKind = TokenKind::IF;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"else"	{
+		int tokenKind = TokenKind::ELSE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"while"	{
+		int tokenKind = TokenKind::WHILE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"return"	{
+			int tokenKind = TokenKind::RETURN;
+			Token *token = new Token(lineNum, colNum, tokenKind);
+			this->yylval->lexeme = token;
+			colNum++;
+			return tokenKind;
+			}
+
+"array"	{
+		int tokenKind = TokenKind::ARRAY;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"true"	{
+		int tokenKind = TokenKind::TRUE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"false"	{
+		int tokenKind = TokenKind::FALSE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"read"	{
+		int tokenKind = TokenKind::READ;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"write"	{
+		int tokenKind = TokenKind::WRITE;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
+
+"havoc"	{
+		int tokenKind = TokenKind::HAVOC;
+		Token *token = new Token(lineNum, colNum, tokenKind);
+		this->yylval->lexeme = token;
+		colNum++;
+		return tokenKind;
+		}
 
 .   {
 		//TODO: Add the rest of the rules above this point so that legal characters
