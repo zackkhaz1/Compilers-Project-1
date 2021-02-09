@@ -279,7 +279,8 @@ namespace crona {
         TRUE = 296,
         VOID = 297,
         WHILE = 298,
-        WRITE = 299
+        WRITE = 299,
+        HAVOC = 300
       };
     };
 
