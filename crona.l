@@ -28,7 +28,7 @@ using TokenKind = crona::Parser::token;
 
 DIGIT [0-9]
 CHAR  [a-zA-Z]
-ESCAPES [n,t]
+ESCAPES [n,t,",\]
 
 %%
 %{
@@ -117,11 +117,22 @@ ESCAPES [n,t]
     return tokenKind;
 
 }
-
-\"\\^(ESCAPES)  //Rule for invalid string literals
-{
-
+  //Rule for invalid string literals containing bad escape character
+\"\\^(ESCAPES)\"{
+  errStrEsc(lineNum,colNum);
+  return;
 }
+  //Rule for invalid string literals that are Unterminated and contain bad escape characters
+\".\\^(ESCAPES){
+    errStrEscAndUnterm(lineNum, colNum);
+    return;
+}
+  //Rule for string literals that are Unterminated
+\"([^\\\"]|\\.)*{
+  errStrUnterm(lineNum,colNum);
+  return;
+}
+
 
 
 "int"	{
