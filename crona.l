@@ -28,7 +28,7 @@ using TokenKind = crona::Parser::token;
 
 DIGIT [0-9]
 CHAR  [a-zA-Z]
-ESCAPES [n,t,",\]
+ESCAPES [nt"\]
 
 
 %%
@@ -104,36 +104,24 @@ ESCAPES [n,t,",\]
 		return TokenKind::INTLITERAL;
 		}
 
-\n		{
+\n {
 		lineNum++;
 		colNum = 0;
 		}
-	//This rule captures good string literals, need another rule to capture Unterminated strings
-\"([^\\\"]|\\.)*\"	{
-    int tokenKind = TokenKind::STRLITERAL;
+\"(\\.|[^\\"])*\" {
+        int tokenKind = TokenKind::STRLITERAL;
 
-    this->yylval->lexeme = new StringLitToken(lineNum,colNum,tokenKind);
-    colNum += yytext.size();
+        this->yylval->lexeme = new StringLitToken(lineNum,colNum,tokenKind);
+        colNum += yytext.size();
 
-    return tokenKind;
+        return tokenKind;
 
-}
-  //Rule for invalid string literals containing bad escape character
-\"\\^(ESCAPES)\"{
-  errStrEsc(lineNum,colNum);
-  return;
-}
-  //Rule for invalid string literals that are Unterminated and contain bad escape characters
-\".\\^(ESCAPES){
-    errStrEscAndUnterm(lineNum, colNum);
-    return;
-}
-  //Rule for string literals that are Unterminated
-\"([^\\\"]|\\.)*{
-  errStrUnterm(lineNum,colNum);
-  return;
-}
+      }
 
+\".\\^{ESCAPES} {
+              errStrEscAndUnterm(lineNum, colNum);
+              return;
+  }
 
 "int"		{
 		int tokenKind = TokenKind::INT;
