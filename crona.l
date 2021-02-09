@@ -28,11 +28,8 @@ using TokenKind = crona::Parser::token;
 
 DIGIT [0-9]
 CHAR  [a-zA-Z]
-<<<<<<< HEAD
 ESCAPES [n,t,",\]
-=======
-ESCAPES [n, t]
->>>>>>> 56a3ca2b33de297b55b4d3f748c322498df593c2
+
 
 %%
 %{
