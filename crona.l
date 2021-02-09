@@ -80,6 +80,190 @@ ESCAPES [n,t,",\]
 		return tokenKind;
 		}
 
+"["	{
+  	int tokenKind = TokenKind::LBRACE;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"]"	{
+  	int tokenKind = TokenKind::RBRACE;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"{"	{
+  	int tokenKind = TokenKind::LCURLY;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"}"	{
+  	int tokenKind = TokenKind::RCURLY;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"("	{
+  	int tokenKind = TokenKind::LPAREN;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+")"	{
+  	int tokenKind = TokenKind::RPAREN;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+";"	{
+  	int tokenKind = TokenKind::SEMICOLON;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+":"	{
+  	int tokenKind = TokenKind::COLON;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+","	{
+  	int tokenKind = TokenKind::COMMA;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"--"	{
+  	int tokenKind = TokenKind::DASHDASH;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"++"	{
+  	int tokenKind = TokenKind::CROSSCROSS;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"*"	{
+  	int tokenKind = TokenKind::STAR;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"/"	{
+  	int tokenKind = TokenKind::SLASH;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"!"	{
+  	int tokenKind = TokenKind::NOT;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"=="	{
+  	int tokenKind = TokenKind::EQUALS;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"!="	{
+  	int tokenKind = TokenKind::NOTEQUALS;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"<"	{
+  	int tokenKind = TokenKind::LESS;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+">"	{
+  	int tokenKind = TokenKind::GREATER;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"<="	{
+  	int tokenKind = TokenKind::LESSEQ;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+">="	{
+  	int tokenKind = TokenKind::GREATEREQ;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"="	{
+  	int tokenKind = TokenKind::ASSIGN;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum++;
+  	return tokenKind;
+	}
+
+"&&"	{
+  	int tokenKind = TokenKind::AND;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
+"||"	{
+  	int tokenKind = TokenKind::OR;
+  	Token *token = new Token(lineNum, colNum, tokenKind);
+  	this->yylval->lexeme = token;
+  	colNum = colNum + 2;
+  	return tokenKind;
+	}
+
 {DIGIT}+	{
 
     long intValVerify = strtol(yytext);
