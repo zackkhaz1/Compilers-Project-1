@@ -1,6 +1,7 @@
 %{
 #include <string>
 #include <limits.h>
+#include <bits/stdc++.h>
 
 /* Get our custom yyFlexScanner subclass */
 #include "scanner.hpp"
@@ -26,9 +27,12 @@ using TokenKind = crona::Parser::token;
 %option c++
 
 DIGIT [0-9]
+CHAR  [a-zA-Z]
+ESCAPES [n,t]
 
 %%
-%{          /** Code executed at the beginning of yylex **/
+%{
+            /** Code executed at the beginning of yylex **/
             yylval = lval;
 %}
 
@@ -40,19 +44,19 @@ DIGIT [0-9]
 		// represents (declared in scanner.cpp line 9)
 		int tokenKind = TokenKind::CROSS;
 
-		//Instatiate a token. There are 4 classes of tokens defined based on 
-		// - a literal string (StringLitToken)
+		//Instatiate a token. There are 4 classes of tokens defined based on
+		// - a literal string(StringLitToken)
 		// - a literal integer (IntLitToken)
 		// - an identifier (IDToken)
 		// - a base Token (any other type)
 		// The token object is a handy place to keep information about the
 		// token (i.e. token metadata) such as the line and column on which
-		// the token character started (which can be used later in debug 
-		// messages, etc). 
+		// the token character started (which can be used later in debug
+		// messages, etc).
 		Token * token = new Token(lineNum, colNum, tokenKind);
 
 		//Assign the token to a instance variable of the scanner.
-		// (When Flex processes a .l file in C++ mode, it creates 
+		// (When Flex processes a .l file in C++ mode, it creates
 		// a class called Scanner, which is a subclass of yyFlexScanner)
 		// By assigning a value to this field, we put the token
 		// metadata in a place where scanner's client program can find it.
@@ -76,34 +80,52 @@ DIGIT [0-9]
 		}
 
 {DIGIT}+	{
-		//TODO: The following computation of the integer
-		// value does not check for overflow. It should do so.
-		int intVal = atoi(yytext);
 
+    long intValVerify = strtol(yytext);
+    if(intValVerify > MAX_INT)
+    {
+      //throw an error here for integer overflow, aguments are
+      errIntOverflow(lineNum,colNum);
+      this->yylval->lexeme = new IntLitToken(lineNum, colNum, MAX_INT)
+      return MAX_INT;
+      //return from function or something
+    }
+    else
+    {
+      int intVal = atoi(yytext);
+    }
+		this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
 
-		//Note that the IntLitToken does not take a TokenKind argument
-		// since it's implicitly known that the token represents an
-		// INTLITERAL		
-		yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
+    //update the colNum count according to the number of
+    // characters consumed.
+    colNum+= strlen(yytext);
 
-		//TODO: update the colNum count according to the number of
-		// characters consumed. 
-
-		//As before, alert the client program that an INTLITERAL 
-		// token was matched
 		return TokenKind::INTLITERAL;
 		}
 
 \n		{
-		//Update the line number, reset the columnNumber
 		lineNum++;
 		colNum = 0;
 		}
+    //This rule captures good string literals, need another rule to capture Unterminated strings
+\"([^\\\"]|\\.)*\"{
+    int tokenKind = TokenKind::STRLITERAL;
 
+    this->yylval->lexeme = new StringLitToken(lineNum,colNum,tokenKind);
+    colNum += yytext.size();
+
+    return tokenKind;
+
+}
+
+\"\\^(ESCAPES)  //Rule for invalid string literals
+{
+
+}
 
 .   {
 		//TODO: Add the rest of the rules above this point so that legal characters
-		// are properly accounted for. 
+		// are properly accounted for.
 		std::string msg = "Illegal character ";
 		msg += yytext;
 		error(lineNum,colNum,msg);
