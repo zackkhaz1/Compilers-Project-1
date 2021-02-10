@@ -304,9 +304,7 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
         colNum++;
         Token* token = new StrToken(lineNum, colNum, yytext);
         this->yylval->lexeme = token;
-
         return tokenKind;
-
       }
       /*
 \".\\^{ESCAPES} {
@@ -433,6 +431,11 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 		colNum = colNum + 5;
 		return tokenKind;
 		}
+
+<<EOF>>   	{
+    		colNum++;
+    		return 0;
+    		}
 
 .   {
 		//TODO: Add the rest of the rules above this point so that legal characters
