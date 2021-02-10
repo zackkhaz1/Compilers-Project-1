@@ -27,15 +27,30 @@ using TokenKind = crona::Parser::token;
 %option c++
 
 DIGIT [0-9]
-CHAR  [a-zA-Z]
 ESCAPES [nt"\]
-
+ALPHA [a-zA-Z]
+RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""false""read""write""havoc"]
 
 %%
 %{
             /** Code executed at the beginning of yylex **/
             yylval = lval;
 %}
+
+
+  //identifier rule
+^{RESERVED}_{ALPHA}{DIGIT}+ { //This could be done better i think
+    int tokenKind = TokenKind::ID;
+
+
+
+    Token* token = new Token(lineNum, colNum, tokenKind);
+
+    this->yylval->lexeme = token;
+
+    colNum+=yytext.size();
+    return tokenKind;
+}
 
 "+"		{
 		// Keep track of the "kind" of token we matched. In this case,
