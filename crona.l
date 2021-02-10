@@ -42,7 +42,7 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 ^{RESERVED}_{ALPHA}{DIGIT}+ { //This could be done better i think
     int tokenKind = TokenKind::ID;
 
-    Token* token = new Token(lineNum, colNum, tokenKind);
+    Token* token = new IDToken(lineNum, colNum, yytext);
 
     this->yylval->lexeme = token;
 
@@ -308,9 +308,7 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
         colNum++;
         Token* token = new StrToken(lineNum, colNum, yytext);
         this->yylval->lexeme = token;
-
         return tokenKind;
-
       }
       /*
 \".\\^{ESCAPES} {
@@ -437,6 +435,11 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 		colNum = colNum + 5;
 		return tokenKind;
 		}
+
+<<EOF>>   	{	
+    		colNum++;
+    		return 0;
+    		}
 
 .   {
 		//TODO: Add the rest of the rules above this point so that legal characters
