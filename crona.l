@@ -305,10 +305,9 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 
 \"(\\.|[^\\"])*\" {
         int tokenKind = TokenKind::STRLITERAL;
-
-        Token* token = new Token(lineNum, colNum, tokenKind);
+        colNum++;
+        Token* token = new StrToken(lineNum, colNum, yytext);
         this->yylval->lexeme = token;
-        colNum += strlen(yytext);
 
         return tokenKind;
 
