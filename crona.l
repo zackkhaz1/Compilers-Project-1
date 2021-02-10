@@ -42,13 +42,11 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 ^{RESERVED}_{ALPHA}{DIGIT}+ { //This could be done better i think
     int tokenKind = TokenKind::ID;
 
-
-
     Token* token = new Token(lineNum, colNum, tokenKind);
 
     this->yylval->lexeme = token;
 
-    colNum+=yytext.size();
+    colNum+=strlen(yytext);
     return tokenKind;
 }
 
@@ -281,46 +279,45 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 
 {DIGIT}+	{
 
-    long intValVerify = strtol(yytext);
-    if(intValVerify > MAX_INT)
+    long intValVerify = strtol(yytext, NULL, 10);
+    if(intValVerify > INT_MAX)
     {
-      //throw an error here for integer overflow, aguments are
       errIntOverflow(lineNum,colNum);
-      this->yylval->lexeme = new IntLitToken(lineNum, colNum, MAX_INT)
-      return MAX_INT;
-      //return from function or something
+      this->yylval->lexeme = new IntLitToken(lineNum, colNum, INT_MAX);
+      return INT_MAX;
     }
     else
     {
       int intVal = atoi(yytext);
+      this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
+
+      colNum+= strlen(yytext);
+
+  		return TokenKind::INTLITERAL;
     }
-		this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
 
-    //update the colNum count according to the number of
-    // characters consumed.
-    colNum+= strlen(yytext);
-
-		return TokenKind::INTLITERAL;
 		}
 
 \n {
 		lineNum++;
 		colNum = 0;
 		}
+
 \"(\\.|[^\\"])*\" {
         int tokenKind = TokenKind::STRLITERAL;
 
-        this->yylval->lexeme = new StringLitToken(lineNum,colNum,tokenKind);
-        colNum += yytext.size();
+        Token* token = new StringLitToken(lineNum, colNum, tokenKind);
+        this->yylval->lexeme = token;
+        colNum += strlen(yytext);
 
         return tokenKind;
 
       }
-
+      /*
 \".\\^{ESCAPES} {
               errStrEscAndUnterm(lineNum, colNum);
               return;
-  }
+  }*/
 
 "int"		{
 		int tokenKind = TokenKind::INT;
