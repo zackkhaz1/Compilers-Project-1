@@ -40,121 +40,122 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 
 "int"		{
 		int tokenKind = TokenKind::INT;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 3;
 		return tokenKind;
 		}
 
 "bool"		{
 		int tokenKind = TokenKind::BOOL;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "byte"		{
 		int tokenKind = TokenKind::BYTE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "string"	{
 		int tokenKind = TokenKind::STRING;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
 		return tokenKind;
 		}
 
 "void"		{
 		int tokenKind = TokenKind::VOID;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "if"		{
 		int tokenKind = TokenKind::IF;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 2;
 		return tokenKind;
 		}
 
 "else"		{
 		int tokenKind = TokenKind::ELSE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "while"		{
 		int tokenKind = TokenKind::WHILE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
 		return tokenKind;
 		}
 
 "return"	{
 		int tokenKind = TokenKind::RETURN;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 6;
 		return tokenKind;
 		}
 
 "array"		{
 		int tokenKind = TokenKind::ARRAY;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
 		return tokenKind;
 		}
 
 "true"		{
 		int tokenKind = TokenKind::TRUE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "false"		{
 		int tokenKind = TokenKind::FALSE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
 		return tokenKind;
 		}
 
 "read"		{
 		int tokenKind = TokenKind::READ;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 4;
 		return tokenKind;
 		}
 
 "write"		{
 		int tokenKind = TokenKind::WRITE;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
 		return tokenKind;
 		}
 
 "havoc"		{
 		int tokenKind = TokenKind::HAVOC;
+    colNum++;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum = colNum + 5;
+		;
 		return tokenKind;
 		}
 
