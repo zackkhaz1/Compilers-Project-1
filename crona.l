@@ -38,15 +38,12 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 %}
 
 
-  //identifier rule
-^{RESERVED}_{ALPHA}{DIGIT}+ { //This could be done better i think
+  //identifier rule DOESN'T HANDLE RESERVED KEYWORDS YET
+[_a-zA-Z0-9]+ { //This could be done better i think
     int tokenKind = TokenKind::ID;
-
-    Token* token = new Token(lineNum, colNum, tokenKind);
-
+    colNum++;
+    Token* token = new IDToken(lineNum, colNum, yytext);
     this->yylval->lexeme = token;
-
-    colNum+=strlen(yytext);
     return tokenKind;
 }
 
@@ -289,9 +286,8 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
     else
     {
       int intVal = atoi(yytext);
+      colNum++;
       this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
-
-      colNum+= strlen(yytext);
 
   		return TokenKind::INTLITERAL;
     }
