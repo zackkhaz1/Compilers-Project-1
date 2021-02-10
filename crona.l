@@ -27,7 +27,7 @@ using TokenKind = crona::Parser::token;
 %option c++
 
 DIGIT [0-9]
-ESCAPES [nt"\]
+ESCAPES [nt]
 ALPHA [a-zA-Z]
 RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""false""read""write""havoc"]
 
@@ -447,11 +447,12 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
         this->yylval->lexeme = token;
         return tokenKind;
       }
-      /*
-\".\\^{ESCAPES} {
-              errStrEscAndUnterm(lineNum, colNum);
-              return;
-  }*/
+
+\"(\\.|[^\\"])* {
+                errStrUnterm(lineNum, colNum);
+                colNum+=yyleng;
+  }
+
 
 
 .   {
