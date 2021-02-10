@@ -165,6 +165,8 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
     				return tokenKind;
 				}
 
+[ \s\t]		{ colNum += yyleng; }
+
 "+"	{
 	// Keep track of the "kind" of token we matched. In this case,
 	// it's a CROSS (aka the plus symbol). The full list of token
@@ -204,243 +206,229 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 	// comments so it doesn't look so scary.
 	int tokenKind = TokenKind::DASH;
 	this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
-    	colNum += yyleng;
+	colNum += yyleng;
 	return tokenKind;
 	}
 
 "["	{
-  	int tokenKind = TokenKind::LBRACE;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::LBRACE;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "]"	{
-  	int tokenKind = TokenKind::RBRACE;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::RBRACE;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "{"	{
-  	int tokenKind = TokenKind::LCURLY;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::LCURLY;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "}"	{
-  	int tokenKind = TokenKind::RCURLY;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::RCURLY;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "("	{
-  	int tokenKind = TokenKind::LPAREN;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::LPAREN;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ")"	{
-  	int tokenKind = TokenKind::RPAREN;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::RPAREN;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ";"	{
-  	int tokenKind = TokenKind::SEMICOLON;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::SEMICOLON;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ":"	{
-  	int tokenKind = TokenKind::COLON;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::COLON;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ","	{
-  	int tokenKind = TokenKind::COMMA;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::COMMA;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "--"	{
-  	int tokenKind = TokenKind::DASHDASH;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::DASHDASH;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "++"	{
-  	int tokenKind = TokenKind::CROSSCROSS;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::CROSSCROSS;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "*"	{
-  	int tokenKind = TokenKind::STAR;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::STAR;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "/"	{
-  	int tokenKind = TokenKind::SLASH;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::SLASH;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "!"	{
-  	int tokenKind = TokenKind::NOT;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::NOT;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "=="	{
-  	int tokenKind = TokenKind::EQUALS;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::EQUALS;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "!="	{
-  	int tokenKind = TokenKind::NOTEQUALS;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::NOTEQUALS;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "<"	{
-  	int tokenKind = TokenKind::LESS;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::LESS;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ">"	{
-  	int tokenKind = TokenKind::GREATER;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::GREATER;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "<="	{
-  	int tokenKind = TokenKind::LESSEQ;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::LESSEQ;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 ">="	{
-  	int tokenKind = TokenKind::GREATEREQ;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::GREATEREQ;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "="	{
-  	int tokenKind = TokenKind::ASSIGN;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::ASSIGN;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "&&"	{
-  	int tokenKind = TokenKind::AND;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::AND;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 "||"	{
-  	int tokenKind = TokenKind::OR;
-  	Token *token = new Token(lineNum, colNum, tokenKind);
-  	this->yylval->lexeme = token;
-    	colNum += yyleng;
-  	return tokenKind;
+	int tokenKind = TokenKind::OR;
+	Token *token = new Token(lineNum, colNum, tokenKind);
+	this->yylval->lexeme = token;
+	colNum += yyleng;
+	return tokenKind;
 	}
 
 {DIGIT}+	{
-
-    			long intValVerify = strtol(yytext, NULL, 10);
-    			if(intValVerify > INT_MAX){
-      				errIntOverflow(lineNum,colNum);
-      				this->yylval->lexeme = new IntLitToken(lineNum, colNum, INT_MAX);
-      				colNum += yyleng;
-      				return INT_MAX;
+			long intValVerify = strtol(yytext, NULL, 10);
+			if(intValVerify > INT_MAX){
+				errIntOverflow(lineNum,colNum);
+				this->yylval->lexeme = new IntLitToken(lineNum, colNum, INT_MAX);
+				colNum += yyleng;
+				return INT_MAX;
     			}
 			else{
-      				int intVal = atoi(yytext);
-      				this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
-    				colNum += yyleng;
+				int intVal = atoi(yytext);
+				this->yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
+				colNum += yyleng;
 				return TokenKind::INTLITERAL;
-    			}
-
+			}
 		}
 
-\n 		{
-		lineNum++;
-		colNum = 1;
-		}
+\n 	{
+	lineNum++;
+	colNum = 1;
+	}
 
 
-\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\? {
-        		            errStrEscAndUnterm(lineNum, colNum);
-                      }
+\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{ errStrEscAndUnterm(lineNum, colNum); }
 
-\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\" {
-              errStrEsc(lineNum, colNum);
-    }
+\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{ errStrEsc(lineNum, colNum); }
 
-\"(\\.|[^\\"])* {
-                    errStrUnterm(lineNum, colNum);
-      }
-      
-\"(\\.|[^\\"])*\" {
-        int tokenKind = TokenKind::STRLITERAL;
-        Token* token = new StrToken(lineNum, colNum, yytext);
-        colNum+=yyleng;
-        this->yylval->lexeme = token;
-        return tokenKind;
-      }
+\"(\\.|[^\\"])*		{ errStrUnterm(lineNum, colNum); }
 
-
-
-
-
-
+\"(\\.|[^\\"])*\"	{
+			int tokenKind = TokenKind::STRLITERAL;
+			Token* token = new StrToken(lineNum, colNum, yytext);
+			this->yylval->lexeme = token;
+			colNum += yyleng;
+			return tokenKind;
+			}
 
 .	{
 	std::string msg = "Illegal character ";
