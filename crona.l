@@ -27,7 +27,6 @@ using TokenKind = crona::Parser::token;
 %option c++
 
 DIGIT [0-9]
-ESCAPES [nt]
 ALPHA [a-zA-Z]
 RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""false""read""write""havoc"]
 
@@ -416,6 +415,19 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 		colNum = 1;
 		}
 
+
+\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\? {
+        		            errStrEscAndUnterm(lineNum, colNum);
+                      }
+
+\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\" {
+              errStrEsc(lineNum, colNum);
+    }
+
+\"(\\.|[^\\"])* {
+                    errStrUnterm(lineNum, colNum);
+      }
+      
 \"(\\.|[^\\"])*\" {
         int tokenKind = TokenKind::STRLITERAL;
         Token* token = new StrToken(lineNum, colNum, yytext);
@@ -424,10 +436,9 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
         return tokenKind;
       }
 
-\"(\\.|[^\\"])* {
-                errStrUnterm(lineNum, colNum);
-                colNum+=yyleng;
-  }
+
+
+
 
 
 
