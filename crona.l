@@ -410,34 +410,32 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 			}
 		}
 
-\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
-									errStrEscAndUnterm(lineNum, colNum);
-									lineNum++;
-									colNum = 1;
-									}
-
 \"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{
 							errStrEsc(lineNum, colNum);
 							lineNum++;
 							colNum = 1;
 							}
 
-\"(\\.|[^\\"])[*|.*\n]		{
+\"(\\.|[^\\"\n])*	{
 			errStrUnterm(lineNum, colNum);
 			lineNum++;
 			colNum = 1;
 			}
+
+\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
+									errStrEscAndUnterm(lineNum, colNum);
+									lineNum++;
+									colNum = 1;
+									}
 
 \n 	{
 	lineNum++;
 	colNum = 1;
 	}
 
-"//".*\n	{}
+"//".*\n	{ /* This is for commented line */ }
 
-  /* \"(\\.|[^"\\])*\" */
-
-\"(\ (.|\n)|[^\\"\n])*\" {
+\"(\\.|[^\\"\n])*\" {
 			int tokenKind = TokenKind::STRLITERAL;
 			Token* token = new StrToken(lineNum, colNum, yytext);
 			this->yylval->lexeme = token;
