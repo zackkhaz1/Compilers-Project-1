@@ -27,6 +27,8 @@ using TokenKind = crona::Parser::token;
 %option c++
 
 DIGIT [0-9]
+ALPHA [a-zA-Z]
+RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""false""read""write""havoc"]
 
 %%
 %{
@@ -39,7 +41,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::INT;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -47,7 +49,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::BOOL;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -55,7 +57,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::BYTE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -63,7 +65,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::STRING;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -71,7 +73,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::VOID;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -79,7 +81,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::IF;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -87,7 +89,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::ELSE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -95,7 +97,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::WHILE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -103,7 +105,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::RETURN;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -111,7 +113,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::ARRAY;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -119,7 +121,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::TRUE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -127,7 +129,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::FALSE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -135,7 +137,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::READ;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -143,7 +145,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::WRITE;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -151,7 +153,7 @@ DIGIT [0-9]
 		int tokenKind = TokenKind::HAVOC;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
-		colNum += yyleng;
+    		colNum += yyleng;
 		return tokenKind;
 		}
 
@@ -408,34 +410,27 @@ DIGIT [0-9]
 			}
 		}
 
-\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
-									errStrEscAndUnterm(lineNum, colNum);
-									lineNum++;
-									colNum = 1;
-									}
-
 \"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{
 							errStrEsc(lineNum, colNum);
-							lineNum++;
-							colNum = 1;
+							colNum += yyleng;
 							}
 
-\"(\\.|[^\\"])[*|.*\n]		{
+\"(\\.|[^\\"\n])*	{
 			errStrUnterm(lineNum, colNum);
-			lineNum++;
 			colNum = 1;
 			}
 
-\n 	{
+\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
+									errStrEscAndUnterm(lineNum, colNum);
+									colNum = 1;
+									}
+
+"//".*\n|\n 	{
 	lineNum++;
 	colNum = 1;
 	}
 
-"//".*\n	{}
-
-  /* \"(\\.|[^"\\])*\" */
-
-\"(\ (.|\n)|[^\\"\n])*\" {
+\"(\\.|[^\\"\n])*\" {
 			int tokenKind = TokenKind::STRLITERAL;
 			Token* token = new StrToken(lineNum, colNum, yytext);
 			this->yylval->lexeme = token;
@@ -450,6 +445,7 @@ DIGIT [0-9]
   			colNum += yyleng;
   			return tokenKind;
   			} */
+
 
 .	{
 	std::string msg = "Illegal character ";
