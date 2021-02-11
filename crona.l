@@ -34,7 +34,8 @@ DIGIT [0-9]
             yylval = lval;
 %}
 
-
+    //************RESERVED WORD TOKENS************//
+    //*******************************************//
 "int"		{
 		int tokenKind = TokenKind::INT;
 		Token *token = new Token(lineNum, colNum, tokenKind);
@@ -155,6 +156,9 @@ DIGIT [0-9]
 		return tokenKind;
 		}
 
+    //************END RESERVED WORD TOKENS************//
+    //***********************************************//
+
 [a-zA-Z_][a-zA-Z0-9_]*	{
     				int tokenKind = TokenKind::ID;
     				Token* token = new IDToken(lineNum, colNum, yytext);
@@ -166,42 +170,20 @@ DIGIT [0-9]
 [ \s\t]		{ colNum += yyleng; }
 
 "+"	{
-	// Keep track of the "kind" of token we matched. In this case,
-	// it's a CROSS (aka the plus symbol). The full list of token
-	// kinds is declared around line 197 of grammar.hh. The testing
-	// functionScanner::outputTokens also indicates what each token
-	// represents (declared in scanner.cpp line 9)
+
 	int tokenKind = TokenKind::CROSS;
 
-	//Instatiate a token. There are 4 classes of tokens defined based on
-	// - a literal string(StringLitToken)
-	// - a literal integer (IntLitToken)
-	// - an identifier (IDToken)
-	// - a base Token (any other type)
-	// The token object is a handy place to keep information about the
-	// token (i.e. token metadata) such as the line and column on which
-	// the token character started (which can be used later in debug
-	// messages, etc).
 	Token * token = new Token(lineNum, colNum, tokenKind);
 
-	//Assign the token to a instance variable of the scanner.
-	// (When Flex processes a .l file in C++ mode, it creates
-	// a class called Scanner, which is a subclass of yyFlexScanner)
-	// By assigning a value to this field, we put the token
-	// metadata in a place where scanner's client program can find it.
 	this->yylval->lexeme = token;
 
-	//Since we consumed 1 character, increase the column number by 1
 	colNum++;
-
-	//Let the scanner's client program know that a CROSS token
-	// has been matched
 	return tokenKind;
 	}
 
+  //************SYMBOL TOKENS***********************//
+  //***********************************************//
 "-" 	{
-	//Essentially the same thing as CROSS, but without the verbose
-	// comments so it doesn't look so scary.
 	int tokenKind = TokenKind::DASH;
 	this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
 	colNum += yyleng;
@@ -392,6 +374,9 @@ DIGIT [0-9]
 	return tokenKind;
 	}
 
+  //************END SYMBOL TOKENS*******************//
+  //***********************************************//
+
 {DIGIT}+	{
 			long intValVerify = strtol(yytext, NULL, 10);
 			if(intValVerify > INT_MAX){
@@ -408,6 +393,10 @@ DIGIT [0-9]
 			}
 		}
 
+
+
+    //************STRING LITERAL RULES****************//
+    //***********************************************//
 \"(\\.|[^\\"\n])*	{
 			errStrUnterm(lineNum, colNum);
 			colNum = 1;
@@ -423,6 +412,8 @@ DIGIT [0-9]
 									colNum = 1;
 									}
 
+
+
 "//".*\n|\n 	{
 		// For commented line and new line case
 		lineNum++;
@@ -436,7 +427,8 @@ DIGIT [0-9]
 			colNum += yyleng;
 			return tokenKind;
 			}
-
+  //************END STRING LITERAL RULES************//
+  //***********************************************//
 .	{
 	std::string msg = "Illegal character ";
 	msg += yytext;
