@@ -155,7 +155,7 @@ DIGIT [0-9]
 		return tokenKind;
 		}
 
-[_a-z_A-Z]+[_a-z_A-Z0-9]*	{
+[a-zA-Z_][a-zA-Z0-9_]*	{
     				int tokenKind = TokenKind::ID;
     				Token* token = new IDToken(lineNum, colNum, yytext);
     				this->yylval->lexeme = token;
@@ -408,17 +408,17 @@ DIGIT [0-9]
 			}
 		}
 
-\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{
-							errStrEsc(lineNum, colNum);
-							colNum = 1;
-							}
-
 \"(\\.|[^\\"\n])*	{
 			errStrUnterm(lineNum, colNum);
 			colNum = 1;
 			}
 
-\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
+\"(\\[nt'"\\]|[^\\"\n])*\\[^\nnt"\\]([^\n"])*\"		{
+							errStrEsc(lineNum, colNum);
+							colNum = 1;
+							}
+
+\"(\\[nt'"\\]|[^\\"\n])*(\\[^\nnt"\\])?([^\\"\n]|\\[nt'"\\])*\\?	{
 									errStrEscAndUnterm(lineNum, colNum);
 									colNum = 1;
 									}
@@ -436,15 +436,6 @@ DIGIT [0-9]
 			colNum += yyleng;
 			return tokenKind;
 			}
-
-  /* \"(\\.|[^\\"])*\"	{
-  			int tokenKind = TokenKind::STRLITERAL;
-  			Token* token = new StrToken(lineNum, colNum, yytext);
-  			this->yylval->lexeme = token;
-  			colNum += yyleng;
-  			return tokenKind;
-  			} */
-
 
 .	{
 	std::string msg = "Illegal character ";
