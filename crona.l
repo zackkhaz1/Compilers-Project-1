@@ -34,9 +34,10 @@ DIGIT [0-9]
             yylval = lval;
 %}
 
-    //************RESERVED WORD TOKENS************//
-    //*******************************************//
+
 "int"		{
+        //************RESERVED WORD TOKENS************//
+        //*******************************************//
 		int tokenKind = TokenKind::INT;
 		Token *token = new Token(lineNum, colNum, tokenKind);
 		this->yylval->lexeme = token;
@@ -154,10 +155,11 @@ DIGIT [0-9]
 		this->yylval->lexeme = token;
 		colNum += yyleng;
 		return tokenKind;
+    //************END RESERVED WORD TOKENS********//
+    //*******************************************//
 		}
 
-    //************END RESERVED WORD TOKENS************//
-    //***********************************************//
+
 
 [a-zA-Z_][a-zA-Z0-9_]*	{
     				int tokenKind = TokenKind::ID;
@@ -172,18 +174,18 @@ DIGIT [0-9]
 "+"	{
 
 	int tokenKind = TokenKind::CROSS;
-
 	Token * token = new Token(lineNum, colNum, tokenKind);
 
 	this->yylval->lexeme = token;
 
 	colNum++;
+
 	return tokenKind;
 	}
 
-  //************SYMBOL TOKENS***********************//
-  //***********************************************//
 "-" 	{
+  //************SYMBOL TOKENS*******************//
+  //*******************************************//
 	int tokenKind = TokenKind::DASH;
 	this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
 	colNum += yyleng;
@@ -372,10 +374,9 @@ DIGIT [0-9]
 	this->yylval->lexeme = token;
 	colNum += yyleng;
 	return tokenKind;
+  //************END SYMBOL TOKENS***************//
+  //*******************************************//
 	}
-
-  //************END SYMBOL TOKENS*******************//
-  //***********************************************//
 
 {DIGIT}+	{
 			long intValVerify = strtol(yytext, NULL, 10);
@@ -393,11 +394,9 @@ DIGIT [0-9]
 			}
 		}
 
-
-
-    //************STRING LITERAL RULES****************//
-    //***********************************************//
 \"(\\.|[^\\"\n])*	{
+  //************STRING LITERAL RULES************//
+  //*******************************************//
 			errStrUnterm(lineNum, colNum);
 			colNum = 1;
 			}
@@ -412,8 +411,6 @@ DIGIT [0-9]
 									colNum = 1;
 									}
 
-
-
 "//".*\n|\n 	{
 		// For commented line and new line case
 		lineNum++;
@@ -426,9 +423,11 @@ DIGIT [0-9]
 			this->yylval->lexeme = token;
 			colNum += yyleng;
 			return tokenKind;
+
+      //************END STRING LITERAL RULES********//
+      //*******************************************//
 			}
-  //************END STRING LITERAL RULES************//
-  //***********************************************//
+
 .	{
 	std::string msg = "Illegal character ";
 	msg += yytext;
