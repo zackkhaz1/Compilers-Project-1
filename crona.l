@@ -410,25 +410,47 @@ RESERVED ["int""bool""byte""string""void""if""else""while""return""array""true""
 			}
 		}
 
+\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{
+							errStrEsc(lineNum, colNum);
+							lineNum++;
+							colNum = 1;
+							}
+
+\"(\\.|[^\\"\n])*	{
+			errStrUnterm(lineNum, colNum);
+			lineNum++;
+			colNum = 1;
+			}
+
+\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{
+									errStrEscAndUnterm(lineNum, colNum);
+									lineNum++;
+									colNum = 1;
+									}
+
 \n 	{
 	lineNum++;
 	colNum = 1;
 	}
 
+"//".*\n	{ /* This is for commented line */ }
 
-\"([^\n"\\]|\\[nt'"\\])*(\\[^\nnt"\\])?([^\n"\\]|\\[nt'"\\])*\\?	{ errStrEscAndUnterm(lineNum, colNum); }
-
-\"([^\n"\\]|\\[nt'"\\])*\\[^\nnt"\\]([^\n"])*\"		{ errStrEsc(lineNum, colNum); }
-
-\"(\\.|[^\\"])*		{ errStrUnterm(lineNum, colNum); }
-
-\"(\\.|[^\\"])*\"	{
+\"(\\.|[^\\"\n])*\" {
 			int tokenKind = TokenKind::STRLITERAL;
 			Token* token = new StrToken(lineNum, colNum, yytext);
 			this->yylval->lexeme = token;
 			colNum += yyleng;
 			return tokenKind;
 			}
+
+  /* \"(\\.|[^\\"])*\"	{
+  			int tokenKind = TokenKind::STRLITERAL;
+  			Token* token = new StrToken(lineNum, colNum, yytext);
+  			this->yylval->lexeme = token;
+  			colNum += yyleng;
+  			return tokenKind;
+  			} */
+
 
 .	{
 	std::string msg = "Illegal character ";
